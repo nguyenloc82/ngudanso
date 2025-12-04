@@ -1,13 +1,35 @@
 'use client';
 import Link from 'next/link';
 import { FaSearch, FaShoppingBag, FaEdit, FaUserCircle } from 'react-icons/fa';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation'; // 1. Import Router
 
 export default function Header() {
+  const router = useRouter();
+  const [keyword, setKeyword] = useState('');
+
+  // 2. Hàm xử lý tìm kiếm
+  const handleSearch = () => {
+    if (keyword.trim()) {
+      // Chuyển hướng về trang chủ kèm từ khóa tìm kiếm
+      router.push(`/?search=${encodeURIComponent(keyword)}`);
+    } else {
+      // Nếu rỗng thì về trang chủ gốc
+      router.push('/');
+    }
+  };
+
+  // 3. Xử lý khi nhấn phím Enter
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <header className="bg-yellow-400 shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
-          {/* LOGO - Bấm vào quay về trang chủ */}
           <Link href="/" className="text-2xl font-black text-blue-900 tracking-tighter uppercase">
             Ngư Dân Số
           </Link>
@@ -18,16 +40,18 @@ export default function Header() {
               type="text" 
               placeholder="Tìm cá thu, mực lá, tôm hùm..." 
               className="w-full pl-4 pr-10 py-2 rounded shadow-sm outline-none focus:ring-2 focus:ring-blue-900"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)} // Lưu từ khóa đang gõ
+              onKeyDown={handleKeyDown} // Bắt sự kiện Enter
             />
             <button 
-              onClick={() => alert("Tính năng tìm kiếm đang phát triển!")}
+              onClick={handleSearch} // Gọi hàm tìm kiếm
               className="absolute right-1 top-1 p-1.5 bg-blue-900 text-white rounded hover:bg-blue-800"
             >
               <FaSearch />
             </button>
           </div>
 
-          {/* ACTIONS - Đã sửa href="#" thành đường dẫn thật */}
           <div className="flex items-center gap-4 text-blue-900 font-bold text-sm">
             <Link href="/orders" className="flex items-center gap-1 hover:text-white transition hidden sm:flex">
               <FaShoppingBag className="text-xl"/> <span>Đơn hàng</span>
@@ -45,8 +69,14 @@ export default function Header() {
         
         {/* MOBILE SEARCH */}
         <div className="mt-3 md:hidden relative">
-          <input type="text" placeholder="Tìm kiếm..." className="w-full pl-4 pr-10 py-2 rounded text-sm outline-none"/>
-          <FaSearch className="absolute right-3 top-2.5 text-gray-500"/>
+          <input 
+            type="text" 
+            placeholder="Tìm kiếm..." 
+            className="w-full pl-4 pr-10 py-2 rounded text-sm outline-none"
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <FaSearch onClick={handleSearch} className="absolute right-3 top-2.5 text-gray-500"/>
         </div>
       </div>
     </header>
