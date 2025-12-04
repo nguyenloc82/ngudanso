@@ -1,6 +1,7 @@
 import ListingCard from '@/components/ListingCard';
+import Link from 'next/link'; // Import Link
 
-// DỮ LIỆU GIẢ LẬP (MOCK DATA) - Sau này sẽ lấy từ Database
+// ... (Giữ nguyên phần DUMMY_DATA cũ của bạn) ...
 const DUMMY_DATA = [
   { id: 1, name: 'Cá Thu Phấn tươi rói vừa cập bến', price: 180000, unit: 'kg', boat: 'BTH-9888', port: 'Cảng Phan Thiết', eta: '10:00 hôm nay', image: 'https://images.unsplash.com/photo-1519783938466-231a47738cb2?auto=format&fit=crop&w=600&q=80' },
   { id: 2, name: 'Tôm Hùm Bông size lớn (2 con/kg)', price: 1250000, unit: 'kg', boat: 'PY-7766', port: 'Cảng Vũng Rô', eta: '14:30 chiều nay', image: 'https://images.unsplash.com/photo-1552528186-218274352724?auto=format&fit=crop&w=600&q=80' },
@@ -13,23 +14,27 @@ const DUMMY_DATA = [
 export default function Home() {
   return (
     <div>
-      {/* Banner nhỏ */}
+      {/* Banner */}
       <div className="bg-blue-900 text-white p-4 rounded-lg mb-6 flex justify-between items-center shadow-lg">
         <div>
           <h2 className="text-xl font-bold">Chợ Hải Sản Đang Cập Bến</h2>
           <p className="text-sm opacity-90">Đặt trước ngay để có giá tốt nhất tại cảng!</p>
         </div>
-        <button className="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold text-sm hover:bg-yellow-300">
+        
+        {/* SỬA NÚT NÀY: Dùng Link thay vì button */}
+        <Link href="#listings" className="bg-yellow-400 text-blue-900 px-4 py-2 rounded font-bold text-sm hover:bg-yellow-300">
           Xem tất cả
-        </button>
+        </Link>
       </div>
 
-      {/* Lưới sản phẩm */}
-      <h3 className="font-bold text-lg mb-4 text-gray-700">Tin đăng mới nhất</h3>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {DUMMY_DATA.map(item => (
-          <ListingCard key={item.id} item={item} />
-        ))}
+      {/* Thêm id="listings" để nút trên cuộn xuống đây */}
+      <div id="listings">
+        <h3 className="font-bold text-lg mb-4 text-gray-700">Tin đăng mới nhất</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {DUMMY_DATA.map(item => (
+            <ListingCard key={item.id} item={item} />
+          ))}
+        </div>
       </div>
     </div>
   );

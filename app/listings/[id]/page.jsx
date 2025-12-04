@@ -1,7 +1,13 @@
+'use client';
+
+// 1. Khai báo kiểu dữ liệu cho params để sửa lỗi TypeScript
 export default function ListingDetail({ params }) {
-  // Vì chưa có Backend, ta hard-code hiển thị giả
-  // Trong thực tế sẽ dùng params.id để gọi API lấy dữ liệu chi tiết
   
+  // Hàm xử lý khi bấm nút Chat
+  const handleChat = () => {
+    alert(`Đang kết nối chat với chủ tàu cho đơn hàng #${params.id}... (Tính năng đang phát triển)`);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="grid md:grid-cols-2 gap-0">
@@ -17,8 +23,13 @@ export default function ListingDetail({ params }) {
         {/* Thông tin chi tiết */}
         <div className="p-6 flex flex-col justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Cá Thu Phấn tươi rói vừa cập bến (Minh họa)</h1>
-            <p className="text-3xl font-bold text-red-600 mb-4">180.000 đ <span className="text-base font-normal text-gray-500">/ kg</span></p>
+            {/* Hiển thị ID tin đăng để kiểm tra */}
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              Cá Thu Phấn tươi rói (Mã tin: {params.id})
+            </h1>
+            <p className="text-3xl font-bold text-red-600 mb-4">
+              180.000 đ <span className="text-base font-normal text-gray-500">/ kg</span>
+            </p>
             
             <div className="space-y-3 text-sm text-gray-600 mb-6">
               <div className="flex justify-between border-b pb-2">
@@ -39,14 +50,25 @@ export default function ListingDetail({ params }) {
               </div>
             </div>
             
-            <p className="text-gray-700 italic">"Cá đánh bắt lưới cước trong đêm, đảm bảo tươi xanh, không ướp urê. Anh chị em đặt gạch em để phần nhé!"</p>
+            <p className="text-gray-700 italic">
+              "Cá đánh bắt lưới cước trong đêm, đảm bảo tươi xanh, không ướp urê. Anh chị em đặt gạch em để phần nhé!"
+            </p>
           </div>
 
           <div className="mt-8 flex gap-3">
-            <button className="flex-1 bg-green-600 text-white font-bold py-3 rounded hover:bg-green-700 shadow">
+            {/* 2. Sửa nút GỌI ĐIỆN: Dùng thẻ 'a' với 'href="tel:"' để gọi điện thoại */}
+            <a 
+              href="tel:0901234567" 
+              className="flex-1 bg-green-600 text-white font-bold py-3 rounded hover:bg-green-700 shadow flex items-center justify-center cursor-pointer"
+            >
               GỌI ĐIỆN NGAY
-            </button>
-            <button className="flex-1 border-2 border-green-600 text-green-600 font-bold py-3 rounded hover:bg-green-50">
+            </a>
+
+            {/* 3. Sửa nút CHAT: Thêm sự kiện onClick */}
+            <button 
+              onClick={handleChat}
+              className="flex-1 border-2 border-green-600 text-green-600 font-bold py-3 rounded hover:bg-green-50"
+            >
               CHAT VỚI CHỦ TÀU
             </button>
           </div>
